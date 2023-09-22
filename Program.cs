@@ -14,6 +14,8 @@ class Program
     {
       WriteLine("1. Lägg till film");
 
+       WriteLine("2. Lägg till skådespelare");
+
       var keyPressed = ReadKey(true);
 
       switch (keyPressed.Key)
@@ -24,13 +26,51 @@ class Program
           AddMovieView();
 
           break;
+
+        case ConsoleKey.D2:
+        case ConsoleKey.NumPad2:
+
+          AddActorView();
+
+          break;  
       }
 
       Clear();
     }
   }
 
-  private static void AddMovieView()
+    private static void AddActorView()
+    {
+        var firstName = GetUserInput("Förnamn");
+        var lastName = GetUserInput("Efternamn");
+        var birthDate = DateTime.Parse(GetUserInput("Födelsedatum"));
+
+        var actor = new Actor
+        {
+          FirstName = firstName,
+          LastName = lastName,
+          BirthDate = birthDate
+        };
+
+        SaveActor(actor);
+
+        Clear();
+
+        WriteLine("Skådespelare sparad");
+
+        Thread.Sleep(2000);
+    }
+
+    private static void SaveActor(Actor actor)
+    {
+        using var context = new ApplicationDbContext();
+
+        context.Actor.Add(actor);
+
+        context.SaveChanges();
+    }
+
+    private static void AddMovieView()
   {
     var title = GetUserInput("Titel");
     var plot = GetUserInput("Handling");
