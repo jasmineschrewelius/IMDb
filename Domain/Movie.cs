@@ -19,4 +19,7 @@ class Movie
     public required string Director { get; set; }
 
     public required DateTime Premier { get; set; }
+
+    // Navigration property
+    public ICollection<Actor> Actors { get; set; } = new List<Actor>();
 }
